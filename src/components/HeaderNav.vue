@@ -58,7 +58,9 @@
     </div>
 </div>
 </template>
-<script>function selected() {
+<script>
+
+function selected() {
 var targeted = event.target;
 var clicked = targeted.parentElement;
 
