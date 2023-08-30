@@ -41,7 +41,34 @@
             </select>
         </div>
         <div>
-            <label for="location" class="block">Département(s) :</label>
+            <label for="location" class="block">Département(s) : </label>
+            <!-- TEST 1 -->
+            <!-- 
+            <select @change="addOrRemoveLocation($event)">
+                <option value="" disabled selected>Choisissez une localisation</option>
+                <option class="disabled:text-red" v-for="location in locations" :key="location.id" :value="location.id" v-text="location.location_name"></option>
+            </select>
+            <div>
+                <ul>
+                    <li v-for="location in form.locations" :key="location" v-text="locations.filter((reqLocation)=>{return reqLocation.id == location})[0].location_name"></li>
+                </ul>
+            </div> 
+            -->
+
+            <!-- TEST 2 -->
+            <!-- <select v-model="temp_location_id" @change="addOrRemoveLocation">
+                <option value="" disabled selected>Choisissez une localisation</option>
+                <option class="disabled:text-red" v-for="location in locations" :key="location.id" :value="location.id" v-text="location.location_name"></option>
+            </select>
+            <div>
+                <ul>
+                    <li v-for="location in form.locations" :key="location.id" v-text="location.location_name"></li>
+                </ul>
+            </div>  -->
+
+
+             <!-- TEST 3 -->
+
             <select v-model="temp_location_id" @change="addLocation">
                 <option value="" disabled selected>Choisissez une localisation</option>
                 <option class="disabled:text-red" v-for="location in locations" :key="location.id" :value="location.id" :disabled="form.locations.filter((loc)=>loc.id==location.id).length" v-text="location.location_name"></option>
@@ -54,8 +81,10 @@
                 </div>
                 
             </div>
+
+            <!--   -->
         </div>
-        <button type="submit" :disabled="bool" class="bg-blue-500 px-2 py-1 text-white rounded">Créer la personne</button>
+        <button type="submit" class="bg-blue-500 px-2 py-1 text-white rounded">Créer la personne</button>
     </form>
 </template>
 <script setup>
@@ -76,8 +105,6 @@ import router from "../router";
             locations: [],
         });
 
-        const bool = ref(false);
-
         const organisation_name = ref();
 
         const { createPersonnes } = usePersonnes();
@@ -86,6 +113,37 @@ import router from "../router";
 
         const { location, locations, getLocations } = useLocations();
 
+        // const addOrRemoveLocation = (e) => {
+        //     // Ajoute ou retire un champs selon s'il est déjà dans mon array ou pas
+        //     if(form.locations.includes(Number(e.target.value))){
+        //         const index = form.locations.indexOf(Number(e.target.value))
+        //         form.locations.splice(index, 1)
+        //     }
+        //     else{
+        //         form.locations.push(Number(e.target.value))
+        //         console.log(form.locations)
+        //     }
+        //     form.locations.sort((a,b)=>{return a - b})
+        //     e.target.value = ''
+        // }
+
+        // const addOrRemoveLocation = () => {
+
+        //     if(form.locations.filter((loc)=>loc.id==temp_location_id.value).length){
+        //         const locationToDelete = form.locations.filter((loc)=>loc.id==temp_location_id.value)[0]
+        //         const index = form.locations.indexOf(locationToDelete)
+        //         form.locations.splice(index, 1)
+        //     }
+        //     else{
+        //         const searchedLocation = locations.value.filter((loc)=>loc.id==temp_location_id.value)[0]
+        //         form.locations.push(searchedLocation)
+        //     }
+        //      form.locations.sort((a,b)=>{return a.id  - b.id })
+        //     temp_location_id.value=''
+        // }
+
+
+        
         const addLocation = () => {
             const searchedLocation = locations.value.filter((loc)=>loc.id==temp_location_id.value)[0]
             form.locations.push(searchedLocation)
@@ -99,14 +157,9 @@ import router from "../router";
         }
 
         const storePersonnes = async () => {
-            try {  
-                bool.value = true;
-                await createPersonnes({...form});
-                router.push({name: 'people.list'});
-            }
-            catch (e) {
-                bool.value = false;
-            }
+     
+            await createPersonnes({...form});
+            router.push({name: 'people.list'});
         };
 
 

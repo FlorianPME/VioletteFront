@@ -3,13 +3,12 @@
 <div class="m-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 display: inline-block">
 
     <div class="flex flex-col p-5">
-        <h4 class="mb-1 text-xl font-medium text-gray-900 dark:text-white" v-if="person.civility_id">{{ person.civility_id }}</h4>
+        <h4 class="mb-1 text-xl font-medium text-gray-900 dark:text-white" v-if="person.civility">{{ person.civility.gender}}</h4>
         <h5 class="mb-1 text-2xl font-medium text-gray-900 dark:text-white">{{ person.last_name }} {{ person.first_name }}</h5>
-        <h5 class="mb-1 text-l font-medium text-gray-900 dark:text-white" >Entreprise : {{ person.organisation_id}}</h5>
+        <h5 class="mb-1 text-l font-medium text-gray-900 dark:text-white" v-if="person.organisation" >Entreprise : <router-link :to="{ name: 'organisations.details', params: { id: person.organisation.id }}">{{ person.organisation.organisation_name}}</router-link></h5>
         <ul>Département(s) :
             <li v-for="location in person.locations" :key="location.id" v-if="person.locations"> {{ location.location_name }} </li>
         </ul>
-        <!-- v-for="organisation in person.organisations" :key="organisation_id" v-if="person.organisation_id" -->
         <span class="text-sm text-gray-500 dark:text-gray-400">{{person.email}}</span>
         <span class="text-sm text-gray-500 dark:text-gray-400">{{person.phone}}</span>
         <div class="flex mt-4 space-x-3 md:mt-6">
@@ -25,7 +24,6 @@
     import { onMounted } from "vue";
     import usePersonnes from "../services/personnesservices";
 
-
     const props = defineProps({
         id: {
             required: true,
@@ -37,10 +35,5 @@
 
 
     onMounted(()=>{getPersonne(props.id)});
- 
-
-
-
-
 
 </script>

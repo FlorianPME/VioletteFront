@@ -21,8 +21,11 @@ export default function useOrganisations() {
 
     
     const createOrganisations = async (data) => {
+        
+        data.people = data.people.map((elmt)=>elmt.id)
         console.log(data);
         await axios.post('http://localhost:8000/api/organisations', data);
+        
         await router.push({name: 'organisations.list'});
     };
 
@@ -41,6 +44,7 @@ export default function useOrganisations() {
     try{
         const response = await axiosClient.get(`http://localhost:8000/api/organisations?search=${organisationName}`)
         return response.data.data
+        
     }catch(e){
         throw new Error(`Nan on trouve R. [function getOrganisationsByName ${organisationName}]`)
     }

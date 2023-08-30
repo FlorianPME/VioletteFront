@@ -4,7 +4,13 @@
 
     <div class="flex flex-col p-5">
         <h3 class="mb-1 text-2xl font-medium text-gray-900 dark:text-white">Nom de l'entreprise : {{ organisation.organisation_name }}</h3>
-        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white" v-if="organisation.sector">{{ organisation.sector.sector_name }}</h5>
+        
+            <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white" v-if="organisation.sector">{{ organisation.sector.sector_name }}</h5>
+       
+        <div> Personne(s) : 
+            
+        <h5 class="mb-1 text-l font-medium text-gray-900 dark:text-white" v-for="person in organisation.people" :key="person.id" v-if="organisation.people" ><router-link :to="{name: 'people.details', params: { id: person.id }}">{{ person.last_name}} {{ person.first_name}}</router-link></h5>
+          </div>
         <h6 class="mb-1 text-l font-medium text-gray-900 dark:text-white">Ville : {{ organisation.city}}</h6>
         <span class="text-l text-gray-500 dark:text-gray-400">Code Postal : {{organisation.postal_code}}</span>
         <span class="text-sm text-gray-500 dark:text-gray-400">Chiffre d'affaires : {{organisation.chiffre_affaires}} €</span>
